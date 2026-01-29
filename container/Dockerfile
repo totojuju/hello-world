@@ -9,7 +9,7 @@ WORKDIR /app
 RUN mvn clean package -DskipTests=true
 
 # 実行ステージ
-FROM openjdk:17-slim
+FROM eclipse-temurin:17-jre
 
 # ビルドステージから jar をコピー
 COPY --from=builder /app/target/hello-world-0.0.1-SNAPSHOT.jar /app/app.jar
