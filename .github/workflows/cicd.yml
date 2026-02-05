@@ -50,7 +50,7 @@ jobs:
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-        IMAGE_TAG: ${{ github.run_id }}
+        IMAGE_TAG: ${{ github.run_id }}-${{ github.run_attempt }}
       run: |
         docker build -f container/Dockerfile -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
@@ -75,12 +75,12 @@ jobs:
 
     - name: Terraform plan
       env:
-        TF_VAR_app_image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.run_id }}
+        TF_VAR_app_image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.run_id }}-${{ github.run_attempt }}
         TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
       run: terraform -chdir=infra plan -out tfplan
 
     - name: Terraform apply
       env:
-        TF_VAR_app_image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.run_id }}
+        TF_VAR_app_image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.run_id }}-${{ github.run_attempt }}
         TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
       run: terraform -chdir=infra apply -auto-approve tfplan
