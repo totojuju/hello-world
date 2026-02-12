@@ -1,0 +1,14 @@
+spring: 
+    application:
+        name: hello-world
+
+app: 
+    aws: 
+        region: ap-northeast-1
+        dynamodb: 
+            endpoint-url: ""
+
+dynamodb: 
+    tables:
+        users: Users
+        orders: Orders
