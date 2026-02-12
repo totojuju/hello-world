@@ -33,7 +33,7 @@ public class OrderRepository {
     private final DynamoDbIndex<OrderEntity> gsi3;
 
     // 削除フラグがfalseのExpression
-    private final Expression deletedExpression = Expression.builder()
+    private static final Expression DELETED_EXPRESSION = Expression.builder()
             .expression("deleted = :deleted")
             .putExpressionValue(":deleted", AttributeValue.builder().bool(false).build())
             .build();
@@ -83,7 +83,7 @@ public class OrderRepository {
         // クエリリクエスト作成
         QueryEnhancedRequest request = QueryEnhancedRequest.builder()
                 .queryConditional(conditional)
-                .filterExpression(deletedExpression)  // 削除フラグ=false
+                .filterExpression(DELETED_EXPRESSION)  // 削除フラグ=false
                 .scanIndexForward(true)  // 昇順
                 .build();
         
