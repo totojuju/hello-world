@@ -33,6 +33,17 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    
+    - name: Start LocalStack
+      run: docker compose up -d localstack
+    
+    - name: Wait for LocalStack
+      run: |
+        for i in {1..30}; do
+          curl -s http://localhost:4566/_localstack/health | grep -q '"dynamodb": "running"' && exit 0
+          sleep 2
+        done
+        echo "LocalStack did not ready" && exit 1
 
     - name: Maven build
       run: mvn -B package --file pom.xml
