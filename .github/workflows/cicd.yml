@@ -49,6 +49,12 @@ jobs:
         docker compose logs localstack
         exit 1
 
+    - name: Ensure Orders table exists
+      run: |
+        docker compose exec -T localstack sh /etc/localstack/init/ready.d/01-create-orders-table.sh || true
+        docker compose exec -T localstack awslocal dynamodb wait table-exists --table-name Orders --region ap-northeast-1
+        docker compose exec -T localstack awslocal dynamodb describe-table --table-name Orders --region ap-northeast-1
+
     - name: Maven build
       run: mvn -B package --file pom.xml
 
