@@ -33,6 +33,27 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    
+    - name: Start LocalStack
+      run: docker compose up -d localstack
+    
+    - name: Wait for LocalStack
+      run: |
+        for i in {1..60}; do
+          BODY="$(curl -s http://localhost:4566/_localstack/health || true)"
+          echo "$BODY"
+          echo "$BODY" | grep -Eq '"dynamodb"[[:space:]]*:[[:space:]]*"(running|available)"' && exit 0
+          sleep 2
+        done
+        echo "LocalStack did not become ready"
+        docker compose logs localstack
+        exit 1
+
+    - name: Ensure Orders table exists
+      run: |
+        docker compose exec -T localstack sh /etc/localstack/init/ready.d/01-create-orders-table.sh || true
+        docker compose exec -T localstack awslocal dynamodb wait table-exists --table-name Orders --region ap-northeast-1
+        docker compose exec -T localstack awslocal dynamodb describe-table --table-name Orders --region ap-northeast-1
 
     - name: Maven build
       run: mvn -B package --file pom.xml

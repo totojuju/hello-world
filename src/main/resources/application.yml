@@ -1,0 +1,30 @@
+spring: 
+    application:
+        name: hello-world
+
+app: 
+    aws: 
+        region: ap-northeast-1
+        access-key: ""
+        secret-key: ""
+        dynamodb: 
+            endpoint-url: ""
+
+dynamodb: 
+    tables:
+        users: Users
+        orders: Orders
+
+---
+spring:
+    config:
+        activate:
+            on-profile: local
+
+app:
+    aws:
+        region: ap-northeast-1
+        access-key: test
+        secret-key: test
+        dynamodb:
+            endpoint-url: http://localhost:4566
