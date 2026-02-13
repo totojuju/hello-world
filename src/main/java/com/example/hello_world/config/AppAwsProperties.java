@@ -6,6 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class AppAwsProperties {
     
     private String region;
+    private String accessKey;
+    private String secretKey;
     private final Dynamodb dynamodb = new Dynamodb();
 
     public String getRegion() {
@@ -13,6 +15,22 @@ public class AppAwsProperties {
     }
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 
     public Dynamodb getDynamodb() {
