@@ -2,7 +2,7 @@
 set -e
 
 awslocal dynamodb create-table \
-  --table-name Orders \
+  --table-name orders \
   --attribute-definitions \
     AttributeName=orderId,AttributeType=S \
     AttributeName=userId,AttributeType=S \

@@ -12,8 +12,8 @@ app:
 
 dynamodb: 
     tables:
-        users: Users
-        orders: Orders
+        users: users
+        orders: orders
 
 ---
 spring:

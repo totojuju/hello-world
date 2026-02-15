@@ -19,12 +19,12 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
 /**
- * Ordersテーブルアクセス用クラス.
+ * ordersテーブルアクセス用クラス.
  */
 @Repository
 public class OrderRepository {
 
-    // Ordersテーブルオブジェクト
+    // ordersテーブルオブジェクト
     private final DynamoDbTable<OrderEntity> orderTable;
 
     // GSIオブジェクト

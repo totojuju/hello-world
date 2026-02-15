@@ -50,7 +50,7 @@ public class OrderRepositoryTest {
         
         DynamoDbTable<OrderEntity> table = loader.getTable(
             client,
-            "Orders",
+            props.getTables().getOrders(),
             OrderEntity.class
         );
         loader.deleteAllByPartitionKey(table, OrderEntity::getOrderId);
