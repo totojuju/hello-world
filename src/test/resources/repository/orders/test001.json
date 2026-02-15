@@ -6,6 +6,7 @@
         "totalAmount": 1500, 
         "shippingPrefecture": "Tokyo", 
         "createdAt": "2024-06-01T10:15:30Z", 
+        "deleted": false, 
         "ttl": 1712136930
     }, 
     {
@@ -15,6 +16,7 @@
         "totalAmount": 2500, 
         "shippingPrefecture": "Osaka", 
         "createdAt": "2024-06-02T11:20:35Z", 
+        "deleted": false, 
         "ttl": 1712223335
     }
 ]
