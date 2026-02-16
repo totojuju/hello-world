@@ -12,6 +12,7 @@ services:
       - DEBUG=1
     volumes:
       - "./localstack/init:/etc/localstack/init/ready.d"
+      - "./localstack/ddl:/etc/localstack/ddl"
       - "localstack-data:/var/lib/localstack"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]

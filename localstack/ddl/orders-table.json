@@ -1,0 +1,40 @@
+{
+  "TableName": "orders",
+  "AttributeDefinitions": [
+    { "AttributeName": "orderId", "AttributeType": "S" },
+    { "AttributeName": "userId", "AttributeType": "S" },
+    { "AttributeName": "status", "AttributeType": "S" },
+    { "AttributeName": "shippingPrefecture", "AttributeType": "S" },
+    { "AttributeName": "createdAt", "AttributeType": "S" }
+  ],
+  "KeySchema": [
+    { "AttributeName": "orderId", "KeyType": "HASH" }
+  ],
+  "BillingMode": "PAY_PER_REQUEST",
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "gsi_user_created_at",
+      "KeySchema": [
+        { "AttributeName": "userId", "KeyType": "HASH" },
+        { "AttributeName": "createdAt", "KeyType": "RANGE" }
+      ],
+      "Projection": { "ProjectionType": "ALL" }
+    },
+    {
+      "IndexName": "gsi_status_created_at",
+      "KeySchema": [
+        { "AttributeName": "status", "KeyType": "HASH" },
+        { "AttributeName": "createdAt", "KeyType": "RANGE" }
+      ],
+      "Projection": { "ProjectionType": "ALL" }
+    },
+    {
+      "IndexName": "gsi_prefecture_created_at",
+      "KeySchema": [
+        { "AttributeName": "shippingPrefecture", "KeyType": "HASH" },
+        { "AttributeName": "createdAt", "KeyType": "RANGE" }
+      ],
+      "Projection": { "ProjectionType": "ALL" }
+    }
+  ]
+}
