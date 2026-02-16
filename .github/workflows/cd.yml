@@ -72,6 +72,7 @@ jobs:
       with:
         repository: ${{ secrets.INFRA_REPO }}
         path: infra
+        token: ${{ secrets.INFRA_REPO_TOKEN }}
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
