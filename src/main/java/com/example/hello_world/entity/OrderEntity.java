@@ -20,11 +20,13 @@ public class OrderEntity {
     // ステータス
     private String status;
     // 注文金額
-    private Double totalAmount;
+    private Long totalAmount;
     // 配送先都道府県
     private String shippingPrefecture;
     // 作成日時
     private String createdAt;
+    // 削除フラグ
+    private Boolean deleted;
     // TTL
     private Long ttl;
 
