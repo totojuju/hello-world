@@ -2,12 +2,15 @@ package com.example.hello_world.repository;
 
 import java.util.List;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Repository;
 
 import com.example.hello_world.config.DynamoDbProperties;
 import com.example.hello_world.constant.DynamoDbConst;
+import com.example.hello_world.criteria.OrderQueryByGsiOneCriteria;
 import com.example.hello_world.entity.OrderEntity;
 
+import lombok.RequiredArgsConstructor;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbIndex;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
@@ -22,15 +25,22 @@ import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
  * ordersテーブルアクセス用クラス.
  */
 @Repository
-public class OrderRepository {
+@RequiredArgsConstructor
+public class OrderRepository implements InitializingBean{
+
+    // DynamoDBの変数定義取得用
+    private final DynamoDbProperties props;
+
+    // DynamoDBクライアント
+    private final DynamoDbEnhancedClient client;
 
     // ordersテーブルオブジェクト
-    private final DynamoDbTable<OrderEntity> orderTable;
+    private DynamoDbTable<OrderEntity> orderTable;
 
     // GSIオブジェクト
-    private final DynamoDbIndex<OrderEntity> gsi1;
-    private final DynamoDbIndex<OrderEntity> gsi2;
-    private final DynamoDbIndex<OrderEntity> gsi3;
+    private DynamoDbIndex<OrderEntity> gsi1;
+    private DynamoDbIndex<OrderEntity> gsi2;
+    private DynamoDbIndex<OrderEntity> gsi3;
 
     // 削除フラグがfalseのExpression
     private static final Expression DELETED_EXPRESSION = Expression.builder()
@@ -38,16 +48,18 @@ public class OrderRepository {
             .putExpressionValue(":deleted", AttributeValue.builder().bool(false).build())
             .build();
 
-    public OrderRepository(DynamoDbProperties props, DynamoDbEnhancedClient client) {
-        DynamoDbTable<OrderEntity> tempTable = client.table(
+    @Override
+    public void afterPropertiesSet() {
+
+        this.orderTable = client.table(
             props.getTables().getOrders(),
             TableSchema.fromBean(OrderEntity.class)
         );
-        this.orderTable = tempTable;
-        this.gsi1 = tempTable.index(DynamoDbConst.ORDERS_GSI1_NAME);
-        this.gsi2 = tempTable.index(DynamoDbConst.ORDERS_GSI2_NAME);
-        this.gsi3 = tempTable.index(DynamoDbConst.ORDERS_GSI3_NAME);
+        this.gsi1 = this.orderTable.index(DynamoDbConst.ORDERS_GSI1_NAME);
+        this.gsi2 = this.orderTable.index(DynamoDbConst.ORDERS_GSI2_NAME);
+        this.gsi3 = this.orderTable.index(DynamoDbConst.ORDERS_GSI3_NAME);
     }
+
     
     /**
      * OrderIdをキーに1件取得.
@@ -71,7 +83,11 @@ public class OrderRepository {
      * @param toCreatedAt
      * @return List<OrderEntity>
      */
-    public List<OrderEntity> queryByGsi1(String userId, String fromCreatedAt, String toCreatedAt) {
+    public List<OrderEntity> queryByGsi1(OrderQueryByGsiOneCriteria criteria) {
+        
+        String userId = criteria.getUserId();
+        String fromCreatedAt = criteria.getFromDateTime().toString();
+        String toCreatedAt = criteria.getToDateTime().toString();
         
         // 検索条件の作成
         QueryConditional conditional = QueryConditional

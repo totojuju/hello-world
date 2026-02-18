@@ -11,7 +11,7 @@ import com.example.hello_world.response.HelloWorldResponse;
 @RestController
 public class HelloWorldController {
     
-    @PostMapping("/helloWorld")
+    @PostMapping("/hello-world")
     public ResponseEntity<HelloWorldResponse> helloWorld(@RequestBody HelloWorldRequest request) {
         HelloWorldResponse response = new HelloWorldResponse();
         response.setMessage("Hello, " + request.getName() + "!");

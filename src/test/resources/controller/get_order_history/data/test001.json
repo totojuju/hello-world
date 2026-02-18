@@ -11,6 +11,16 @@
     }, 
     {
         "orderId": "order-002", 
+        "userId": "user-001", 
+        "status": "SHIPPED", 
+        "totalAmount": 2500, 
+        "shippingPrefecture": "Osaka", 
+        "createdAt": "2025-06-02T11:20:35+09:00", 
+        "deleted": false, 
+        "ttl": 1712223335
+    }, 
+    {
+        "orderId": "order-003", 
         "userId": "user-002", 
         "status": "SHIPPED", 
         "totalAmount": 2500, 
