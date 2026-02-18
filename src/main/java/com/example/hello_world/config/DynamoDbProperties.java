@@ -12,16 +12,7 @@ public class DynamoDbProperties {
     }
 
     public static class Tables {
-        private String users;
         private String orders;
-
-        public String getUsers() {
-            return users;
-        }
-
-        public void setUsers(String users) {
-            this.users = users;
-        }
 
         public String getOrders() {
             return orders;

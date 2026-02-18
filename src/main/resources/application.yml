@@ -12,7 +12,6 @@ app:
 
 dynamodb: 
     tables:
-        users: users
         orders: orders
 
 ---

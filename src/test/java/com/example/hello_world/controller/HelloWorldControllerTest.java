@@ -31,7 +31,7 @@ public class HelloWorldControllerTest {
     void test001() throws Exception {
         
         MvcResult result = mockMvc
-            .perform(MockMvcRequestBuilders.post("/helloWorld")
+            .perform(MockMvcRequestBuilders.post("/hello-world")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"Yuta\"}"))
             .andExpect(status().isOk()).andReturn();
